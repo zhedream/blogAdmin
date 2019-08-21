@@ -26,22 +26,20 @@ const routes: Routes = [
     canActivate: [SimpleGuard],
     canActivateChild: [SimpleGuard],
     children: [
-      { path: '', redirectTo: 'dashboard/v1', pathMatch: 'full' },
-      { path: 'dashboard', redirectTo: 'dashboard/v1', pathMatch: 'full' },
-      { path: 'dashboard/v1', component: DashboardV1Component },
-      { path: 'dashboard/analysis', component: DashboardAnalysisComponent },
-      { path: 'dashboard/monitor', component: DashboardMonitorComponent },
-      { path: 'dashboard/workplace', component: DashboardWorkplaceComponent },
-      {
-        path: 'widgets',
-        loadChildren: () => import('./widgets/widgets.module').then(m => m.WidgetsModule),
-      },
-      { path: 'style', loadChildren: () => import('./style/style.module').then(m => m.StyleModule) },
-      { path: 'delon', loadChildren: () => import('./delon/delon.module').then(m => m.DelonModule) },
-      { path: 'extras', loadChildren: () => import('./extras/extras.module').then(m => m.ExtrasModule) },
-      { path: 'pro', loadChildren: () => import('./pro/pro.module').then(m => m.ProModule) },
+      { path: '', redirectTo: 'dashboard/workplace', pathMatch: 'full' },
+      // { path: 'dashboard', redirectTo: 'dashboard/v1', pathMatch: 'full' }, 
+      // { path: 'dashboard/v1', component: DashboardV1Component },  // 默认页面
+      // { path: 'dashboard/analysis', component: DashboardAnalysisComponent }, // 分析
+      // { path: 'dashboard/monitor', component: DashboardMonitorComponent }, //监控
+      { path: 'dashboard/workplace', component: DashboardWorkplaceComponent }, // 工作台
+      { path: 'test', loadChildren: () => import('./test/test.module').then(m => m.TestModule) }, // 异常页
+      // {path: 'widgets',loadChildren: () => import('./widgets/widgets.module').then(m => m.WidgetsModule)}, // 小部件
+      // { path: 'style', loadChildren: () => import('./style/style.module').then(m => m.StyleModule) }, // 样式
+      // { path: 'delon', loadChildren: () => import('./delon/delon.module').then(m => m.DelonModule) }, // Delon 类库
+      // { path: 'extras', loadChildren: () => import('./extras/extras.module').then(m => m.ExtrasModule) }, // 拓展
+      // { path: 'pro', loadChildren: () => import('./pro/pro.module').then(m => m.ProModule) }, // pro 页
       // Exception
-      { path: 'exception', loadChildren: () => import('./exception/exception.module').then(m => m.ExceptionModule) },
+      { path: 'exception', loadChildren: () => import('./exception/exception.module').then(m => m.ExceptionModule) }, // 异常页
     ],
   },
   // 全屏布局
@@ -93,4 +91,4 @@ const routes: Routes = [
   ],
   exports: [RouterModule],
 })
-export class RouteRoutingModule {}
+export class RouteRoutingModule { }

@@ -60,12 +60,47 @@ export class StartupService {
             // ACL：设置权限为全量
             this.aclService.setFull(true);
             // 初始化菜单
-            this.menuService.add(res.menu);
+            this.menuService.add([
+              {
+                "text": "主导航",
+                "i18n": "menu.main",
+                "group": true,
+                "hideInBreadcrumb": true,
+                "children": [
+                  {
+                    "text": "工作台",
+                    "link": "/dashboard/workplace",
+                  },
+                  {
+                    "text": "快捷菜单",
+                    "icon": "anticon-rocket",
+                    "shortcutRoot": true,
+                    "children": []
+                  },
+                  {
+                    "text": "小部件",
+                    "link": "/widgets",
+                    "icon": "anticon-appstore",
+                    "badge": 2
+                  },
+                  {
+                    "text": "测试模块",
+                    "icon": "anticon-dashboard",
+                    "children": [
+                      {
+                        "text": "hello",
+                        "link": "/test/hello",
+                      },
+                    ]
+                  },
+                ]
+              },
+            ]);
             // 设置页面标题的后缀
             this.titleService.default = '';
             this.titleService.suffix = res.app.name;
           },
-          () => {},
+          () => { },
           () => {
             resolve(null);
           },
