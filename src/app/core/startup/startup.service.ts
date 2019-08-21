@@ -72,18 +72,6 @@ export class StartupService {
                     "link": "/dashboard/workplace",
                   },
                   {
-                    "text": "快捷菜单",
-                    "icon": "anticon-rocket",
-                    "shortcutRoot": true,
-                    "children": []
-                  },
-                  {
-                    "text": "小部件",
-                    "link": "/widgets",
-                    "icon": "anticon-appstore",
-                    "badge": 2
-                  },
-                  {
                     "text": "测试模块",
                     "icon": "anticon-dashboard",
                     "children": [

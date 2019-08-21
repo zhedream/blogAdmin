@@ -1,7 +1,8 @@
 # blogAdmin
 
-1. 新增模块 ng g ng-alain:module test
-2. 添加页面
+1. 新增模块 `blogAdmin/` ng g ng-alain:module test
+
+2. 添加页面 `test/`  ng g c hello
 
 # License
 

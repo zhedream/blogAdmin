@@ -32,9 +32,9 @@ const routes: Routes = [
       // { path: 'dashboard/analysis', component: DashboardAnalysisComponent }, // 分析
       // { path: 'dashboard/monitor', component: DashboardMonitorComponent }, //监控
       { path: 'dashboard/workplace', component: DashboardWorkplaceComponent }, // 工作台
-      { path: 'test', loadChildren: () => import('./test/test.module').then(m => m.TestModule) }, // 异常页
+      { path: 'test', loadChildren: () => import('./test/test.module').then(m => m.TestModule) }, // 测试模块
       // {path: 'widgets',loadChildren: () => import('./widgets/widgets.module').then(m => m.WidgetsModule)}, // 小部件
-      // { path: 'style', loadChildren: () => import('./style/style.module').then(m => m.StyleModule) }, // 样式
+      // { path: 'style', loadChildren: () => import('./style/style.module').then(m => m.StyleModule) }, // 快捷菜单
       // { path: 'delon', loadChildren: () => import('./delon/delon.module').then(m => m.DelonModule) }, // Delon 类库
       // { path: 'extras', loadChildren: () => import('./extras/extras.module').then(m => m.ExtrasModule) }, // 拓展
       // { path: 'pro', loadChildren: () => import('./pro/pro.module').then(m => m.ProModule) }, // pro 页
