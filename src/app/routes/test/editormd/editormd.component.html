@@ -1,0 +1,7 @@
+<div id="md" appEditorMd [config]="conf" (onEditorChange)="syncModel($event)">
+  <textarea [(ngModel)]="markdown"></textarea>
+</div>
+<hr>
+<div id="md2" appHtmlMd [config]="conf" (onEditorChange)="syncModel($event)">
+  <textarea style="display: block;"></textarea>
+</div>

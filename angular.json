@@ -28,7 +28,7 @@
             ],
             "styles": [
               "src/styles.less",
-              "src/assets/editor.md/css/editormd.css"//editormd用到的css路径
+              "src/assets/editor.md/css/editormd.css",//editormd用到的css路径
             ],
             "scripts": [
               "node_modules/@antv/g2/build/g2.js",
