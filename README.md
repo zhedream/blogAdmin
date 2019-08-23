@@ -18,7 +18,11 @@
 ## 测试模块
 1. hello
 2. editor
-3. 
+3. apollo
+
+## ADD apollo
+1. ng add apollo-angular
+2. 
 
 # License
 

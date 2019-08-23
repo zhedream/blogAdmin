@@ -83,6 +83,10 @@ export class StartupService {
                         "text": "editor",
                         "link": "/test/editor",
                       },
+                      {
+                        "text": "apollo",
+                        "link": "/test/apollo",
+                      },
                     ]
                   },
                 ]

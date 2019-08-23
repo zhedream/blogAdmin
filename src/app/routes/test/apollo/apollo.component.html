@@ -1,0 +1,18 @@
+<!-- <div *ngFor="let item of articles">
+    <h1>{{item.title}}</h1>
+    <hr>
+    <div id="md2" appHtmlMd [config]="conf" [md]="item.md">
+        <textarea style="display: block;"></textarea>
+    </div>
+    <hr>
+    <div [innerHTML]="item.html"></div>
+</div> -->
+
+<!-- <div id="md2" appHtmlMd [config]="conf" [md]="article['md']" (OnEditorChange)="change($event)">
+    <textarea style="display: block;"></textarea>
+</div> -->
+
+<div *ngIf="article">
+    <h1>{{article['title']}}</h1>
+    <div [innerHTML]="article.html"></div>
+</div>

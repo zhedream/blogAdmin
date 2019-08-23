@@ -9,19 +9,21 @@ declare var $: any;
 })
 export class HtmlMdDirective implements AfterViewInit {
   @Input() config: EditorConfig; // 配置选项
-  // @Output() onEditorChange: EventEmitter<string> = new EventEmitter<string>(); // 发射器
+  @Input() md: string; // markdown
+  // @Output() onHtmlView: EventEmitter<string> = new EventEmitter<string>(); // 发射器
   html: any; // editormd编辑器
 
   constructor(@Attribute('id') private id: string) {
   }
 
   ngAfterViewInit(): void {
-    console.log(editormd);
+    if (this.md) this.config.markdown = this.md;
     this.html = editormd.markdownToHTML(this.id, this.config); // 解析 Markdown 2 Html
-    console.log(this.config, this.html);
+    // let html = $(this.html).html();
+    // this.onHtmlView.emit(html);
 
     // editormd.markdownToHTML('md2', this.config);
-    // const out = this.onEditorChange;
+    // const out = this.OnEditorChange;
     // const textarea = $('#' + this.id + ' :first'); // 获取textarea元素
 
     // 当编辑器内容改变时，触发textarea的change事件

@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { EditorMdDirective } from 'src/app/editor/editor-md.directive';
 import { HtmlMdDirective } from 'src/app/editor/html-md.directive';
 import { EditormdComponent } from './editormd/editormd.component';
+import { ApolloComponent } from './apollo/apollo.component';
 
 const COMPONENTS = [];
 const COMPONENTS_NOROUNT = [];
@@ -22,7 +23,8 @@ const COMPONENTS_NOROUNT = [];
     ...COMPONENTS,
     ...COMPONENTS_NOROUNT,
     HelloComponent,
-    EditormdComponent
+    EditormdComponent,
+    ApolloComponent
   ],
   entryComponents: COMPONENTS_NOROUNT
 })
