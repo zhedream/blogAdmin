@@ -72,6 +72,24 @@ export class StartupService {
                     "link": "/dashboard/workplace",
                   },
                   {
+                    "text": "文章模块",
+                    "icon": "anticon-dashboard",
+                    "children": [
+                      {
+                        "text": "列表",
+                        "link": "/article/index",
+                      },
+                      {
+                        "text": "新增",
+                        "link": "/article/add",
+                      },
+                      {
+                        "text": "修改",
+                        "link": "/article/edit",
+                      },
+                    ]
+                  },
+                  {
                     "text": "测试模块",
                     "icon": "anticon-dashboard",
                     "children": [

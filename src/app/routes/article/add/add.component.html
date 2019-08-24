@@ -1,0 +1,44 @@
+<nz-card [nzBordered]="false">
+    <form nz-form [formGroup]="form" (ngSubmit)="submit()" se-container="1" labelWidth="200">
+        <se label="标题" error="请输入标题" required>
+            <input nz-input formControlName="title" placeholder="给文章起个名字" />
+        </se>
+        <se label="描述" error="请输入描述" required>
+            <textarea nz-input formControlName="desc" [nzAutosize]="{ minRows: 4 }" placeholder="请输入你的文章描述吧"></textarea>
+        </se>
+        <se label="标签">
+            <nz-col nzLg="9/12*24" nzMd="9/12*24" nzSm="9/12*24">
+                <nz-select nzMode="multiple" style="width: 100%;" nzPlaceHolder="Tag Mode" formControlName="tags"
+                    (ngModelChange)="optionChange($event)">
+                    <nz-option *ngFor="let option of listOfOption" [nzLabel]="option.label" [nzValue]="option.value">
+                    </nz-option>
+                </nz-select>
+            </nz-col>
+            <nz-col nzLg="3/12*24" nzMd="3/12*24" nzSm="3/12*24">
+                <button type="button" nz-button (click)="addTag(modalContent)" [nzType]="'primary'">
+                    <i nz-icon nzType="plus"></i>
+                    <span>新增标签</span>
+                </button>
+            </nz-col>
+        </se>
+        <se label=" 文章内容">
+            <div id="add" appEditorMd [config]="conf" (OnEditorChange)="syncModel($event)">
+                <textarea></textarea>
+            </div>
+        </se>
+        <se>
+            <button nz-button nzType="primary" [disabled]="form.invalid" type="submit"
+                [nzLoading]="submitting">提交</button>
+        </se>
+    </form>
+
+</nz-card>
+
+<ng-template #modalContent>
+    <nz-form-item>
+        <nz-form-label nzFor="tagName">输入标签名</nz-form-label>
+        <nz-form-control>
+            <input nz-input [(ngModel)]="tagName" name="tagName" placeholder="输入标签名" id="tagName" />
+        </nz-form-control>
+    </nz-form-item>
+</ng-template>

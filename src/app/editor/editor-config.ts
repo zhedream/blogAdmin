@@ -13,7 +13,7 @@ export class EditorConfig {
     public watch = true;
     public previewCodeHighlight = true;
     public saveHTMLToTextarea = true;
-    public markdown = '# Nothing';
+    public markdown = '';
     public flowChart = false;// 流程图
     public syncScrolling = true;
     public sequenceDiagram = false;// UML时序图

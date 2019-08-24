@@ -28,7 +28,7 @@ export class EditorMdDirective implements AfterViewInit {
     fromEvent(this.editor, 'change').pipe(debounceTime(250))
       .subscribe(() => {
         const html = $(this.editor.preview[0]).html();
-        console.log(this.editor.pr);
+        // console.log(this.editor);
         const catalogue = $('.markdown-toc.editormd-markdown-toc').prop("outerHTML");
         let md = this.editor.markdownTextarea;
         md = $(md).html();
