@@ -39,6 +39,12 @@ git commit  时 检查代码
 https://blog.csdn.net/wf19930209/article/details/80413904
 ng test
 
+## 页面销毁
+ ERROR Error: ViewDestroyedError: Attempt to use a destroyed view: detectChanges
+LINK: https://cloud.tencent.com/developer/ask/43068
+cause: apollo: 试图销毁 的订阅问题
+解决办法: 视图销毁前, 取消订阅
+
 # License
 
 The MIT License (see the [LICENSE](https://github.com/ng-alain/ng-alain/blob/master/LICENSE) file for the full text)

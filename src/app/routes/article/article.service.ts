@@ -28,14 +28,14 @@ mutation edit($where: ArticleWhereUniqueInput!,$data: ArticleUpdateInput!){
 
   // 获取文章
   get(call, where) {
-    this.apollo
+    const sub = this.apollo
       .watchQuery<any>({
         query: this.getGql
-        , variables: where
+        , variables: { where }
       })
       .valueChanges.subscribe(({ data }) => {
         this.articles = data.articles as ArticleType[];
-        call(this.articles)
+        call(this.articles, sub)
       });
 
   }
@@ -74,7 +74,14 @@ mutation edit($where: ArticleWhereUniqueInput!,$data: ArticleUpdateInput!){
   }
 
   // 编辑文章
-  edit() {
+  edit(call, article: ArticleType) {
+    const id = article.id;
+    delete article.id;
+    delete article.createdAt;
+    delete article.updatedAt;
+    this.apollo.mutate<{ updateArticle: ArticleType }>({ mutation: this.editGql, variables: { where: { id }, data: article } }).subscribe(({ data }) => { call(data.updateArticle) }, error => {
+      call(error)
+    });
   }
 
   // 删除文章 (逻辑删除)

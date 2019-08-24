@@ -20,7 +20,7 @@ export class EditorMdDirective implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    if (this.md) this.config.markdown = this.md;
+    if (this.md) this.config.markdown = this.md; // 注意 md 数据的 时机 ， *ngif
     this.editor = editormd(this.id, this.config); // 创建编辑器
 
     const out = this.OnEditorChange;

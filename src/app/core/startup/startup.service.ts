@@ -85,7 +85,7 @@ export class StartupService {
                       },
                       {
                         "text": "修改",
-                        "link": "/article/edit",
+                        "link": "/article/edit/cjzo51z64002h0772p63dvad6",
                       },
                     ]
                   },

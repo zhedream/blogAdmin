@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, ViewChild, TemplateRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, ViewChild, TemplateRef, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NzMessageService, NzModalService } from 'ng-zorro-antd';
 import { EditorConfig } from 'src/app/editor/editor-config';
@@ -8,6 +8,7 @@ import { STComponent, STColumn, STData, STChange } from '@delon/abc';
 import { _HttpClient } from '@delon/theme';
 import { map, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-index',
@@ -15,7 +16,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./index.component.less'],
 
 })
-export class IndexComponent implements OnInit {
+export class IndexComponent implements OnInit, OnDestroy {
   // 搜索参数
   q: any = {
     pi: 1,
@@ -75,7 +76,10 @@ export class IndexComponent implements OnInit {
         },
         {
           text: '修改',
-          click: (item: any) => this.msg.success(`修改${item.id}`),
+          click: (item: any) => {
+            this.msg.success(`修改${item.id} 正在跳转...`)
+            this.router.navigateByUrl("article/edit/" + item.id)
+          },
         },
       ],
     },
@@ -84,6 +88,7 @@ export class IndexComponent implements OnInit {
   description = '';
   totalclick = 0;
   expandForm = false;
+  getSub: Subscription;
 
   constructor(
     private http: _HttpClient,
@@ -107,7 +112,10 @@ export class IndexComponent implements OnInit {
       this.q.statusList.push(this.q.status);
     }
     // 获取数据
-    this.articleService.get((articles: ArticleType[]) => {
+    this.articleService.get((articles: ArticleType[], getSub: Subscription) => {
+      if (!this.getSub) {
+        this.getSub = getSub;
+      }
       this.loading = false
       this.data = articles
       this.cdr.detectChanges();
@@ -155,5 +163,12 @@ export class IndexComponent implements OnInit {
   reset() {
     // wait form reset updated finished
     setTimeout(() => this.getData());
+  }
+
+  // 页面销毁前 取消订阅 
+  ngOnDestroy() {
+    // this.cdr.detach(); // try this
+    // for me I was detect changes inside "subscribe" so was enough for me to just unsubscribe;
+    this.getSub.unsubscribe();
   }
 }
