@@ -8,17 +8,17 @@ import { ArticleType } from 'src/app/validators';
 })
 export class ArticleService {
   getGql = gql`query get($where: ArticleWhereInput){
-    articles(where:$where){ id,title,desc,md,html,catalogue,tags{id,name},isPublished,createdAt,updatedAt}
+    articles(where:$where){ id,title,desc,md,html,catalogue,clickCount,readCount,commentCount,tags{id,name},type{id,name},isPublished,createdAt,updatedAt}
   }`;
 
   addGql = gql`
   mutation add($data: ArticleCreateInput!){
-  createArticle(data:$data){ id,title,desc,md,html,catalogue,tags{id,name},isPublished,createdAt,updatedAt}
+  createArticle(data:$data){ id,title,desc,md,html,catalogue,clickCount,readCount,commentCount,tags{id,name},type{id,name},isPublished,createdAt,updatedAt}
 }`;
 
   editGql = gql`
 mutation edit($where: ArticleWhereUniqueInput!,$data: ArticleUpdateInput!){
-  updateArticle(where:$where,data:$data){ id,title,desc,md,html,catalogue,tags{id,name},isPublished,createdAt,updatedAt}
+  updateArticle(where:$where,data:$data){ id,title,desc,md,html,catalogue,clickCount,readCount,commentCount,tags{id,name},type{id,name},isPublished,createdAt,updatedAt}
 }`;
   articles: ArticleType[];
 
@@ -26,6 +26,7 @@ mutation edit($where: ArticleWhereUniqueInput!,$data: ArticleUpdateInput!){
     private apollo: Apollo
   ) { }
 
+  // 获取文章
   get(call, where) {
     this.apollo
       .watchQuery<any>({
@@ -38,6 +39,11 @@ mutation edit($where: ArticleWhereUniqueInput!,$data: ArticleUpdateInput!){
       });
 
   }
+  /**
+   *   刷新缓存-文章
+   * @param callback 回调
+   * @param vbs  参数
+   */
   reGet(callback, vbs = null) {
     this.apollo.query({
       query: this.getGql,
@@ -52,7 +58,11 @@ mutation edit($where: ArticleWhereUniqueInput!,$data: ArticleUpdateInput!){
       callback(data)
     })
   }
-
+  /**
+   * 新增文章
+   * @param call  回调
+   * @param article 文章数据
+   */
   add(call, article: ArticleType) {
     delete article.id;
     delete article.createdAt;
@@ -63,32 +73,16 @@ mutation edit($where: ArticleWhereUniqueInput!,$data: ArticleUpdateInput!){
 
   }
 
+  // 编辑文章
   edit() {
-
   }
 
+  // 删除文章 (逻辑删除)
   del() {
-
   }
 
-  /**
-   * 获取服务器数据更新apollo缓存
-   * @param gq gq查询语句
-   * @param vbs 查询条件,变量
-   * @param callback 更新缓存后的回调
-   */
-  updateChache(gq, vbs = null, callback) {
-    this.apollo.query({
-      query: gq,
-      variables: { ...vbs },
-      fetchPolicy: 'no-cache'
-    }).subscribe(data => {
-      this.apollo.getClient().writeQuery({
-        query: gq,
-        variables: vbs,
-        data: data.data
-      })
-      callback(data)
-    })
+  // 真删除
+  rm() {
   }
+
 }

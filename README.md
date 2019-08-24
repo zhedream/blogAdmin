@@ -35,6 +35,10 @@
 https://www.jianshu.com/p/dc55ddd6c5c2
 git commit  时 检查代码
 
+## 测试
+https://blog.csdn.net/wf19930209/article/details/80413904
+ng test
+
 # License
 
 The MIT License (see the [LICENSE](https://github.com/ng-alain/ng-alain/blob/master/LICENSE) file for the full text)

@@ -1,62 +1,42 @@
 <page-header [title]="'查询表格'"></page-header>
 <nz-card [nzBordered]="false">
-  <form nz-form [nzLayout]="'inline'" (ngSubmit)="getData()" class="search__form">
+  <form nz-form [nzLayout]="'inline'" (ngSubmit)="getData()" class="search__form" *ngIf="false">
     <div nz-row [nzGutter]="{ xs: 8, sm: 8, md: 8, lg: 24, xl: 48, xxl: 48 }">
       <div nz-col nzMd="8" nzSm="24">
         <nz-form-item>
-          <nz-form-label nzFor="no">规则编号</nz-form-label>
+          <nz-form-label nzFor="type">文章分类</nz-form-label>
           <nz-form-control>
-            <input nz-input [(ngModel)]="q.no" name="no" placeholder="请输入" id="no" />
+            <nz-select [(ngModel)]="q.type" name="type" id="type" [nzPlaceHolder]="'请选择'" [nzShowSearch]="true">
+              <nz-option *ngFor="let i of status; let idx = index" [nzLabel]="i.text" [nzValue]="i.value"></nz-option>
+            </nz-select>
           </nz-form-control>
         </nz-form-item>
       </div>
       <div nz-col nzMd="8" nzSm="24">
         <nz-form-item>
-          <nz-form-label nzFor="status">使用状态</nz-form-label>
+          <nz-form-label nzFor="tags">文章标签</nz-form-label>
           <nz-form-control>
-            <nz-select
-              [(ngModel)]="q.status"
-              name="status"
-              id="status"
-              [nzPlaceHolder]="'请选择'"
-              [nzShowSearch]="true"
-            >
-              <nz-option *ngFor="let i of status; let idx = index" [nzLabel]="i.text" [nzValue]="idx"></nz-option>
+            <nz-select [(ngModel)]="q.tags" name="tags" id="tags" [nzPlaceHolder]="'请选择'" [nzShowSearch]="true">
+              <nz-option *ngFor="let i of status; let idx = index" [nzLabel]="i.text" [nzValue]="i.value"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzMd="8" nzSm="24">
+        <nz-form-item>
+          <nz-form-label nzFor="status">公开状态</nz-form-label>
+          <nz-form-control>
+            <nz-select [(ngModel)]="q.status" name="status" id="status" [nzPlaceHolder]="'请选择'" [nzShowSearch]="true">
+              <nz-option *ngFor="let i of status; let idx = index" [nzLabel]="i.text" [nzValue]="i.value"></nz-option>
             </nz-select>
           </nz-form-control>
         </nz-form-item>
       </div>
       <div nz-col nzMd="8" nzSm="24" *ngIf="expandForm">
         <nz-form-item>
-          <nz-form-label nzFor="callNo">调用次数</nz-form-label>
+          <nz-form-label nzFor="click">点击次数</nz-form-label>
           <nz-form-control>
-            <input nz-input id="callNo" />
-          </nz-form-control>
-        </nz-form-item>
-      </div>
-      <div nz-col nzMd="8" nzSm="24" *ngIf="expandForm">
-        <nz-form-item>
-          <nz-form-label nzFor="updatedAt">更新日期</nz-form-label>
-          <nz-form-control> </nz-form-control>
-        </nz-form-item>
-      </div>
-      <div nz-col nzMd="8" nzSm="24" *ngIf="expandForm">
-        <nz-form-item>
-          <nz-form-label nzFor="status2">使用状态</nz-form-label>
-          <nz-form-control>
-            <nz-select [nzPlaceHolder]="'请选择'" nzId="status2" [nzShowSearch]="true">
-              <nz-option *ngFor="let i of status; let idx = index" [nzLabel]="i.text" [nzValue]="idx"></nz-option>
-            </nz-select>
-          </nz-form-control>
-        </nz-form-item>
-      </div>
-      <div nz-col nzMd="8" nzSm="24" *ngIf="expandForm">
-        <nz-form-item>
-          <nz-form-label nzFor="status3">使用状态</nz-form-label>
-          <nz-form-control>
-            <nz-select [nzPlaceHolder]="'请选择'" nzId="status3" [nzShowSearch]="true">
-              <nz-option *ngFor="let i of status; let idx = index" [nzLabel]="i.text" [nzValue]="idx"></nz-option>
-            </nz-select>
+            <input nz-input id="click" name="click" [(ngModel)]="q.clickCount" />
           </nz-form-control>
         </nz-form-item>
       </div>
@@ -75,15 +55,14 @@
     <span>新建</span>
   </button>
   <ng-container *ngIf="selectedRows.length > 0">
-    <button nz-button>批量操作</button>
     <button nz-button nz-dropdown [nzDropdownMenu]="batchMenu" nzPlacement="bottomLeft">
-      更多操作
+      批量操作
       <i nz-icon nzType="down"></i>
     </button>
     <nz-dropdown-menu #batchMenu="nzDropdownMenu">
       <ul nz-menu>
-        <li nz-menu-item (click)="remove()">删除</li>
-        <li nz-menu-item (click)="approval()">批量审批</li>
+        <li nz-menu-item (click)="remove()">公开</li>
+        <li nz-menu-item (click)="approval()">私有</li>
       </ul>
     </nz-dropdown-menu>
   </ng-container>
@@ -91,23 +70,18 @@
     <nz-alert [nzType]="'info'" [nzShowIcon]="true" [nzMessage]="message">
       <ng-template #message>
         已选择
-        <strong class="text-primary">{{ selectedRows.length }}</strong> 项&nbsp;&nbsp; 服务调用总计
-        <strong>{{ totalCallNo }}</strong> 万
-        <a *ngIf="totalCallNo > 0" (click)="st.clearCheck()" class="ml-lg">清空</a>
+        <strong class="text-primary">{{ selectedRows.length }}</strong> 项&nbsp;&nbsp; 文章点击总计
+        <strong>{{ totalclick }}</strong> 次
+        <a *ngIf="totalclick > 0" (click)="st.clearCheck()" class="ml-lg">清空</a>
       </ng-template>
     </nz-alert>
   </div>
   <st #st [columns]="columns" [data]="data" [loading]="loading" (change)="stChange($event)">
-    <ng-template st-row="status" let-i>
-      <nz-badge [nzStatus]="i.statusType" [nzText]="i.statusText"></nz-badge>
+    <ng-template st-row="stateTemp" let-i>
+      <nz-badge [nzStatus]="i.isPublished?'success':'error'" [nzText]="i.isPublished?'公开':'私有'"></nz-badge>
     </ng-template>
   </st>
 </nz-card>
 <ng-template #modalContent>
-  <nz-form-item>
-    <nz-form-label nzFor="no">描述</nz-form-label>
-    <nz-form-control>
-      <input nz-input [(ngModel)]="description" name="description" placeholder="请输入" id="no" />
-    </nz-form-control>
-  </nz-form-item>
+  <div>跳转页面</div>
 </ng-template>
