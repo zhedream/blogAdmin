@@ -1,23 +1,22 @@
-import { Component, OnInit, ViewChild, ChangeDetectorRef, TemplateRef, OnDestroy } from '@angular/core';
-import { TagType } from 'src/app/validators';
+import { Component, OnInit, OnDestroy, ViewChild, TemplateRef, ChangeDetectorRef } from '@angular/core';
+import { CategoryType } from 'src/app/validators';
 import { STComponent, STColumn, STData, STChange } from '@delon/abc';
 import { Subscription } from 'rxjs';
 import { _HttpClient } from '@delon/theme';
 import { NzMessageService, NzModalService } from 'ng-zorro-antd';
 import { Router } from '@angular/router';
-import { ArticleService } from '../article/article.service';
-import { TagService } from './tag.service';
+import { CategoryService } from './category.service';
 
 @Component({
-  selector: 'app-tag',
-  templateUrl: './tag.component.html',
-  styleUrls: ['./tag.component.less']
+  selector: 'app-category',
+  templateUrl: './category.component.html',
+  styleUrls: ['./category.component.less']
 })
-export class TagComponent implements OnInit, OnDestroy {
+export class CategoryComponent implements OnInit, OnDestroy {
   @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
 
   // 搜索参数
-  data: TagType[] = [];
+  data: CategoryType[] = [];
   loading = false;
 
   @ViewChild('st', { static: true })
@@ -38,11 +37,11 @@ export class TagComponent implements OnInit, OnDestroy {
       buttons: [
         {
           text: '修改',
-          click: (item: TagType) => {
+          click: (item: CategoryType) => {
             this.msg.success(`修改${item.id} 正在跳转...`)
             console.log(item);
-            this.tag.id = item.id
-            this.tag.name = item.name
+            this.category.id = item.id
+            this.category.name = item.name
             this.edit(this.modalContent);
           },
         },
@@ -54,7 +53,7 @@ export class TagComponent implements OnInit, OnDestroy {
   totalclick = 0;
   expandForm = false;
   getSub: Subscription;
-  tag: TagType = {};
+  category: CategoryType = {};
 
   constructor(
     private http: _HttpClient,
@@ -62,7 +61,7 @@ export class TagComponent implements OnInit, OnDestroy {
     private modalSrv: NzModalService,
     private cdr: ChangeDetectorRef,
     private router: Router,
-    private tagService: TagService
+    private categoryService: CategoryService
 
   ) { }
 
@@ -74,13 +73,13 @@ export class TagComponent implements OnInit, OnDestroy {
     this.loading = true;
     // 处理\查询参数
     // 获取数据
-    this.tagService.get((tags: TagType[], getSub: Subscription) => {
-      console.log('tag GET', tags);
+    this.categoryService.get((categories: CategoryType[], getSub: Subscription) => {
+      console.log('category GET', categories);
       if (!this.getSub) {
         this.getSub = getSub;
       }
       this.loading = false
-      this.data = tags
+      this.data = categories
       this.cdr.detectChanges();
     }, {})
   }
@@ -97,7 +96,7 @@ export class TagComponent implements OnInit, OnDestroy {
   // 公开文章
   remove() {
     this.msg.success(' ( 设置公开 ) 正在刷新');
-    this.tagService.reGet((res: TagType[]) => {
+    this.categoryService.reGet((res: CategoryType[]) => {
       this.data = res
       this.st.clearCheck();
     })
@@ -111,38 +110,37 @@ export class TagComponent implements OnInit, OnDestroy {
   // 跳转到 add
   add(tpl: TemplateRef<{}>) {
     this.modalSrv.create({
-      nzTitle: '添加标签',
+      nzTitle: '添加分类',
       nzContent: tpl,
       nzOnOk: () => {
         this.loading = true;
-        this.msg.success('新增标签')
-        this.tagService.add((data) => {
+        this.categoryService.add((data) => {
           this.loading = false;
           this.msg.success(`添加成功`);
-          this.tagService.reGet(({ tags }: { tags: TagType[] }) => {
-            this.data = tags;
+          this.categoryService.reGet(({ categories }: { categories: CategoryType[] }) => {
+            this.data = categories;
             this.msg.success(`刷新缓存`);
             this.cdr.detectChanges();
           })
-        }, this.tag)
+        }, this.category)
       },
     });
   }
 
   edit(tpl: TemplateRef<{}>) {
     this.modalSrv.create({
-      nzTitle: '修改标签',
+      nzTitle: '修改分类',
       nzContent: tpl,
       nzOnOk: () => {
         this.loading = true;
-        this.tagService.edit((data) => {
+        this.categoryService.edit((data) => {
           this.loading = false;
           if (data.id) {
             this.msg.success(`修改成功`);
           } else {
             this.msg.warning(`修改失败`);
           }
-        }, this.tag)
+        }, this.category)
       },
     });
   }

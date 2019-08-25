@@ -1,31 +1,31 @@
 import { Injectable } from '@angular/core';
-import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
-import { TagType as tadaType } from 'src/app/validators/blog/TagType';
+import { Apollo } from 'apollo-angular';
+import { CategoryType as tadaType } from 'src/app/validators';
 import * as fragment from 'src/app/graphql/fragment'
 
 @Injectable({
   providedIn: 'root'
 })
-export class TagService {
+export class CategoryService {
 
   // 获取
-  getGql = gql`query get($where: TagWhereInput){
-    tags(where:$where){ ...tagFra }
-  }  ${fragment.tagFra} `;
+  getGql = gql`query get($where: CategoryWhereInput){
+    categories(where:$where){ ...typeFra }
+  }  ${fragment.typeFra} `;
   // 新增
   addGql = gql`
-  mutation add($data: TagCreateInput!){
-  createTag(data:$data){ ...tagFra}
-} ${fragment.tagFra} `;
+  mutation add($data: CategoryCreateInput!){
+  createCategory(data:$data){ ...typeFra}
+} ${fragment.typeFra} `;
   // 编辑
   editGql = gql`
-mutation edit($where: TagWhereUniqueInput!,$data: TagUpdateInput!){
-  updateTag(where:$where,data:$data){ ...tagFra }
-} ${fragment.tagFra} `;
+mutation edit($where: CategoryWhereUniqueInput!,$data: CategoryUpdateInput!){
+  updateCategory(where:$where,data:$data){ ...typeFra }
+} ${fragment.typeFra} `;
 
 
-  tags: tadaType[];
+  categories: tadaType[];
 
   constructor(
     private apollo: Apollo
@@ -39,8 +39,8 @@ mutation edit($where: TagWhereUniqueInput!,$data: TagUpdateInput!){
         , variables: { where }
       })
       .valueChanges.subscribe(({ data }) => {
-        this.tags = data.tags as tadaType[];
-        call(this.tags, sub)
+        this.categories = data.categories as tadaType[];
+        call(this.categories, sub)
       });
 
   }
@@ -66,13 +66,13 @@ mutation edit($where: TagWhereUniqueInput!,$data: TagUpdateInput!){
   /**
    * 新增
    * @param call  回调
-   * @param tag 数据
+   * @param category 数据
    */
-  add(call, tag: tadaType) {
-    delete tag.id;
-    delete tag.createdAt;
-    delete tag.updatedAt;
-    this.apollo.mutate<{ createTag: tadaType }>({ mutation: this.addGql, variables: { data: tag } }).subscribe(({ data }) => { call(data.createTag) }, error => {
+  add(call, category: tadaType) {
+    delete category.id;
+    delete category.createdAt;
+    delete category.updatedAt;
+    this.apollo.mutate<{ createCategory: tadaType }>({ mutation: this.addGql, variables: { data: category } }).subscribe(({ data }) => { call(data.createCategory) }, error => {
       call(error)
     });
 
@@ -84,7 +84,7 @@ mutation edit($where: TagWhereUniqueInput!,$data: TagUpdateInput!){
     delete dat.id;
     delete dat.createdAt;
     delete dat.updatedAt;
-    this.apollo.mutate<{ updateTag: tadaType }>({ mutation: this.editGql, variables: { where: { id }, data: dat } }).subscribe(({ data }) => { call(data.updateTag) }, error => {
+    this.apollo.mutate<{ updateCategory: tadaType }>({ mutation: this.editGql, variables: { where: { id }, data: dat } }).subscribe(({ data }) => { call(data.updateCategory) }, error => {
       call(error)
     });
   }

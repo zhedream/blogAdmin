@@ -1,3 +1,4 @@
-export * from "./blog/ArticleType"; // exports interface StringValidator
-export * from "./blog/TagType"; // exports interface StringValidator
-export * from "./editor/EditorChangeType"; // exports interface StringValidator
+export * from "./blog/ArticleType";
+export * from "./blog/TagType";
+export * from "./blog/CategoryType";
+export * from "./editor/EditorChangeType";
