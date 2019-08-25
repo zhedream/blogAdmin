@@ -1,0 +1,43 @@
+<p>tag works!</p>
+<page-header [title]="'查询表格'"></page-header>
+<nz-card [nzBordered]="false">
+    <button nz-button (click)="add(modalContent)" [nzType]="'primary'">
+        <i nz-icon nzType="plus"></i>
+        <span>新建</span>
+    </button>
+    <ng-container *ngIf="selectedRows.length > 0">
+        <button nz-button nz-dropdown [nzDropdownMenu]="batchMenu" nzPlacement="bottomLeft">
+            批量操作
+            <i nz-icon nzType="down"></i>
+        </button>
+        <nz-dropdown-menu #batchMenu="nzDropdownMenu">
+            <ul nz-menu>
+                <li nz-menu-item (click)="remove()">公开</li>
+                <li nz-menu-item (click)="approval()">私有</li>
+            </ul>
+        </nz-dropdown-menu>
+    </ng-container>
+    <div class="my-md">
+        <nz-alert [nzType]="'info'" [nzShowIcon]="true" [nzMessage]="message">
+            <ng-template #message>
+                已选择
+                <strong class="text-primary">{{ selectedRows.length }}</strong> 项&nbsp;&nbsp; 文章点击总计
+                <strong>{{ totalclick }}</strong> 次
+                <a *ngIf="totalclick > 0" (click)="st.clearCheck()" class="ml-lg">清空</a>
+            </ng-template>
+        </nz-alert>
+    </div>
+    <st #st [columns]="columns" [data]="data" [loading]="loading" (change)="stChange($event)">
+        <ng-template st-row="stateTemp" let-i>
+            <nz-badge [nzStatus]="i.isPublished?'success':'error'" [nzText]="i.isPublished?'公开':'私有'"></nz-badge>
+        </ng-template>
+    </st>
+</nz-card>
+<ng-template #modalContent>
+    <nz-form-item>
+        <nz-form-label nzFor="tagName">标签名称</nz-form-label>
+        <nz-form-control>
+            <input nz-input [(ngModel)]="tag.name" name="tagName" placeholder="请输入" id="tagName" />
+        </nz-form-control>
+    </nz-form-item>
+</ng-template>

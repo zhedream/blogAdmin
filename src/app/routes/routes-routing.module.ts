@@ -34,6 +34,7 @@ const routes: Routes = [
       { path: 'dashboard/workplace', component: DashboardWorkplaceComponent }, // 工作台
       { path: 'test', loadChildren: () => import('./test/test.module').then(m => m.TestModule) }, // 测试模块
       { path: 'article', loadChildren: () => import('./article/article.module').then(m => m.ArticleModule) }, // 文章模块
+      { path: 'tag', loadChildren: () => import('./tag/tag.module').then(m => m.TagModule) }, // 标签模块
       // {path: 'widgets',loadChildren: () => import('./widgets/widgets.module').then(m => m.WidgetsModule)}, // 小部件
       // { path: 'style', loadChildren: () => import('./style/style.module').then(m => m.StyleModule) }, // 快捷菜单
       // { path: 'delon', loadChildren: () => import('./delon/delon.module').then(m => m.DelonModule) }, // Delon 类库

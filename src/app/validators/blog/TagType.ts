@@ -1,11 +1,11 @@
 import { ArticleType, ArticleConnectType } from './ArticleType';
 
 export interface TagType {
-    id: string
-    name: string
-    articles: ArticleType[] | ArticleConnectType
-    createdAt: string
-    updatedAt: string
+    id?: string
+    name?: string
+    articles?: ArticleType[] | ArticleConnectType
+    createdAt?: string
+    updatedAt?: string
 
 }
 export interface TagConnectType {

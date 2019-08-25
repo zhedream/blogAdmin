@@ -90,6 +90,16 @@ export class StartupService {
                     ]
                   },
                   {
+                    "text": "标签管理",
+                    "icon": "anticon-dashboard",
+                    "children": [
+                      {
+                        "text": "列表",
+                        "link": "/tag",
+                      },
+                    ]
+                  },
+                  {
                     "text": "测试模块",
                     "icon": "anticon-dashboard",
                     "children": [
