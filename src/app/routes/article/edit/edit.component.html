@@ -6,6 +6,21 @@
         <se label="描述" error="请输入描述" required>
             <textarea nz-input formControlName="desc" [nzAutosize]="{ minRows: 4 }" placeholder="请输入你的文章描述吧"></textarea>
         </se>
+        <se label="分类">
+            <nz-col nzLg="9/12*24" nzMd="9/12*24" nzSm="9/12*24">
+                <nz-select nzMode="default" style="width: 100%;" nzPlaceHolder="Type Mode" formControlName="type">
+                    <nz-option *ngFor="let option of typeListOfOption" [nzLabel]="option.label"
+                        [nzValue]="option.value">
+                    </nz-option>
+                </nz-select>
+            </nz-col>
+            <nz-col nzLg="3/12*24" nzMd="3/12*24" nzSm="3/12*24">
+                <button type="button" nz-button (click)="addType(modalContent)" [nzType]="'primary'">
+                    <i nz-icon nzType="plus"></i>
+                    <span>新增分类</span>
+                </button>
+            </nz-col>
+        </se>
         <se label="标签">
             <nz-col nzLg="9/12*24" nzMd="9/12*24" nzSm="9/12*24">
                 <nz-select nzMode="multiple" style="width: 100%;" nzPlaceHolder="Tag Mode" formControlName="tags"

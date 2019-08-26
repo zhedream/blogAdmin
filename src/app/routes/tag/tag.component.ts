@@ -62,7 +62,7 @@ export class TagComponent implements OnInit, OnDestroy {
     private modalSrv: NzModalService,
     private cdr: ChangeDetectorRef,
     private router: Router,
-    private tagService: TagService
+    private tagService: TagService,
 
   ) { }
 

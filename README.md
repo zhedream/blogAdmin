@@ -45,6 +45,12 @@ LINK: https://cloud.tencent.com/developer/ask/43068
 cause: apollo: 试图销毁 的订阅问题
 解决办法: 视图销毁前, 取消订阅
 
+## TemplateRef
+https://www.jianshu.com/p/f4a98e17e766
+
+## TS 接口
+1. 如果 一个数据多个接口， 不能判断的时候，需要断言处理
+
 # License
 
 The MIT License (see the [LICENSE](https://github.com/ng-alain/ng-alain/blob/master/LICENSE) file for the full text)

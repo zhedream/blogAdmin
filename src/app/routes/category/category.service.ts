@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import gql from 'graphql-tag';
 import { Apollo } from 'apollo-angular';
-import { CategoryType as tadaType } from 'src/app/validators';
+import { CategoryType as dataType } from 'src/app/validators';
 import * as fragment from 'src/app/graphql/fragment'
 
 @Injectable({
@@ -25,7 +25,7 @@ mutation edit($where: CategoryWhereUniqueInput!,$data: CategoryUpdateInput!){
 } ${fragment.typeFra} `;
 
 
-  categories: tadaType[];
+  categories: dataType[];
 
   constructor(
     private apollo: Apollo
@@ -39,7 +39,7 @@ mutation edit($where: CategoryWhereUniqueInput!,$data: CategoryUpdateInput!){
         , variables: { where }
       })
       .valueChanges.subscribe(({ data }) => {
-        this.categories = data.categories as tadaType[];
+        this.categories = data.categories as dataType[];
         call(this.categories, sub)
       });
 
@@ -50,14 +50,14 @@ mutation edit($where: CategoryWhereUniqueInput!,$data: CategoryUpdateInput!){
    * @param where  参数
    */
   reGet(callback, where = {}) {
-    this.apollo.query<tadaType[]>({
+    this.apollo.query<dataType[]>({
       query: this.getGql,
       variables: { where },
       fetchPolicy: 'no-cache'
     }).subscribe(({ data }) => {
       this.apollo.getClient().writeQuery({
         query: this.getGql,
-        variables: where,
+        variables: { where },
         data,
       })
       callback(data)
@@ -68,23 +68,23 @@ mutation edit($where: CategoryWhereUniqueInput!,$data: CategoryUpdateInput!){
    * @param call  回调
    * @param category 数据
    */
-  add(call, category: tadaType) {
+  add(call, category: dataType) {
     delete category.id;
     delete category.createdAt;
     delete category.updatedAt;
-    this.apollo.mutate<{ createCategory: tadaType }>({ mutation: this.addGql, variables: { data: category } }).subscribe(({ data }) => { call(data.createCategory) }, error => {
+    this.apollo.mutate<{ createCategory: dataType }>({ mutation: this.addGql, variables: { data: category } }).subscribe(({ data }) => { call(data.createCategory) }, error => {
       call(error)
     });
 
   }
 
   // 编辑文章
-  edit(call, dat: tadaType) {
+  edit(call, dat: dataType) {
     const id = dat.id;
     delete dat.id;
     delete dat.createdAt;
     delete dat.updatedAt;
-    this.apollo.mutate<{ updateCategory: tadaType }>({ mutation: this.editGql, variables: { where: { id }, data: dat } }).subscribe(({ data }) => { call(data.updateCategory) }, error => {
+    this.apollo.mutate<{ updateCategory: dataType }>({ mutation: this.editGql, variables: { where: { id }, data: dat } }).subscribe(({ data }) => { call(data.updateCategory) }, error => {
       call(error)
     });
   }

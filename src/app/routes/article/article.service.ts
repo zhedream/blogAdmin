@@ -2,24 +2,27 @@ import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
 import { ArticleType } from 'src/app/validators';
+import * as fragment from 'src/app/graphql/fragment'
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class ArticleService {
   getGql = gql`query get($where: ArticleWhereInput){
-    articles(where:$where){ id,title,desc,md,html,catalogue,clickCount,readCount,commentCount,tags{id,name},type{id,name},isPublished,createdAt,updatedAt}
-  }`;
+    articles(where:$where){ ...articleFra , tags{ ...tagFra } ,type{ ...typeFra } }
+  } ${fragment.articleFra} ${fragment.tagFra} ${fragment.typeFra}`;
 
   addGql = gql`
   mutation add($data: ArticleCreateInput!){
-  createArticle(data:$data){ id,title,desc,md,html,catalogue,clickCount,readCount,commentCount,tags{id,name},type{id,name},isPublished,createdAt,updatedAt}
-}`;
+  createArticle(data:$data){ ...articleFra , tags{ ...tagFra } ,type{ ...typeFra } }
+} ${fragment.articleFra} ${fragment.tagFra} ${fragment.typeFra}`;
 
   editGql = gql`
 mutation edit($where: ArticleWhereUniqueInput!,$data: ArticleUpdateInput!){
-  updateArticle(where:$where,data:$data){ id,title,desc,md,html,catalogue,clickCount,readCount,commentCount,tags{id,name},type{id,name},isPublished,createdAt,updatedAt}
-}`;
+  updateArticle(where:$where,data:$data){ ...articleFra , tags{ ...tagFra } ,type{ ...typeFra } }
+} ${fragment.articleFra} ${fragment.tagFra} ${fragment.typeFra}`;
+
   articles: ArticleType[];
 
   constructor(
@@ -42,18 +45,18 @@ mutation edit($where: ArticleWhereUniqueInput!,$data: ArticleUpdateInput!){
   /**
    *   刷新缓存-文章
    * @param callback 回调
-   * @param vbs  参数
+   * @param where  条件
    */
-  reGet(callback, vbs = null) {
+  reGet(callback, where = {}) {
     this.apollo.query({
       query: this.getGql,
-      variables: { ...vbs },
+      variables: { where },
       fetchPolicy: 'no-cache'
-    }).subscribe(data => {
+    }).subscribe(({ data }) => {
       this.apollo.getClient().writeQuery({
         query: this.getGql,
-        variables: vbs,
-        data: data.data
+        variables: { where },
+        data
       })
       callback(data)
     })

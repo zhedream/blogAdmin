@@ -12,6 +12,12 @@ export interface TagConnectType {
     connect: { id?: string, name?: string } | { id?: string, name?: string }[]
 
 }
+export interface TagSetType {
+    set: {
+        id?: string
+        name?: string
+    }
+}
 export interface TagCreateType {
     create: {
         id?: string
