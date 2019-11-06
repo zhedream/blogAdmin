@@ -25,6 +25,10 @@ const COMPONENTS = [];
 const DIRECTIVES = [];
 // #endregion
 
+// editor
+import { EditorMdDirective } from 'src/app/editor/editor-md.directive';
+import { HtmlMdDirective } from 'src/app/editor/html-md.directive';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -40,11 +44,14 @@ const DIRECTIVES = [];
     ...THIRDMODULES,
   ],
   declarations: [
+    EditorMdDirective, HtmlMdDirective,
     // your components
     ...COMPONENTS,
     ...DIRECTIVES,
   ],
   exports: [
+    // editor
+    EditorMdDirective, HtmlMdDirective,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
@@ -63,4 +70,4 @@ const DIRECTIVES = [];
     ...DIRECTIVES,
   ],
 })
-export class SharedModule {}
+export class SharedModule { }

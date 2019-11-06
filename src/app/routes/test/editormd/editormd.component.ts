@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { EditorConfig } from '../../../editor/editor-config';
-declare var editormd: any;
+// declare var editormd: any;
 
 @Component({
   selector: 'app-editormd',
