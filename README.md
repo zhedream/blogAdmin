@@ -1,56 +1,35 @@
-# blogAdmin
+# Blog Studio
 
-## 基本的页面
-1. 新增模块 `blogAdmin/` ng g ng-alain:module test
-2. 添加页面 `test/`  ng g c hello
-3. 添加路由 routes-routing.module.ts
+博客内容管理后台，使用 React、TypeScript 和 Vite 构建，通过 GraphQL 管理文章、分类和标签。
 
-## markdown 编辑器
-1. ADD editor.md
-    1. npm i -D jquery editor.md
-    2. npm audit fix ( 提示 run `npm audit fix` to fix them)
-2. 配置使用
-    1. cp node_modules/editor.md/ src/assets/ -r
-    2. 配置 angular.json
-    3. 修复  ./src/assets/editor.md/css/editormd.css:3084   `.../fonts/editormd-logo.eot?#iefix-5y8q6h`  to `../fonts/editormd-logo.eot?#iefix-5y8q6h`
-3. MD 指令
-4. 测试demo editor
+## 本地运行
 
-## 测试模块
-1. hello
-2. editor
-3. apollo
+```bash
+cp .env.example .env.local
+npm ci
+npm run dev
+```
 
-## ADD apollo
-1. ng add apollo-angular
-2. 
+`VITE_GRAPHQL_ENDPOINT` 只保存公开的 GraphQL URL。管理密钥只在登录页面输入，并保存在当前浏览器标签页的 `sessionStorage` 中，8 小时后自动失效。不要把管理密钥放入任何 `VITE_*` 变量或提交到 Git。
 
-## 文章模块 article
-1. index 文章列表
-2. add 新增文章
-3. edit 编辑文章
-4. article 服务 生成服务指令:  ng g s article
+配套的 `blogPrisma` 服务需要设置同一份 `ADMIN_API_TOKEN`，长度至少为 32 个字符：
 
-## 检查代码
-https://www.jianshu.com/p/dc55ddd6c5c2
-git commit  时 检查代码
+```bash
+openssl rand -hex 32
+```
 
-## 测试
-https://blog.csdn.net/wf19930209/article/details/80413904
-ng test
+## 验证
 
-## 页面销毁
- ERROR Error: ViewDestroyedError: Attempt to use a destroyed view: detectChanges
-LINK: https://cloud.tencent.com/developer/ask/43068
-cause: apollo: 试图销毁 的订阅问题
-解决办法: 视图销毁前, 取消订阅
+```bash
+npm run build
+npm test
+npm run security:audit
+npx playwright install chromium
+npm run test:e2e
+```
 
-## TemplateRef
-https://www.jianshu.com/p/f4a98e17e766
+## 部署
 
-## TS 接口
-1. 如果 一个数据多个接口， 不能判断的时候，需要断言处理
+Vercel 构建设置已经写入 `vercel.json`。部署时只需配置 `VITE_GRAPHQL_ENDPOINT`，值为 Blog API 的完整 HTTPS GraphQL 地址，例如 `https://your-api.example/api/graphql`。
 
-# License
-
-The MIT License (see the [LICENSE](https://github.com/ng-alain/ng-alain/blob/master/LICENSE) file for the full text)
+后台是静态单页应用，使用 Hash Router，因此直接刷新文章编辑页也能正常工作。
